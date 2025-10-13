@@ -5,12 +5,24 @@ This module implements LSTM (Long Short-Term Memory) neural networks
 for time series forecasting with support for multivariate inputs.
 """
 
-from typing import Optional, Tuple
+from typing import Optional, Tuple, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from tensorflow import keras as keras_typing
+else:
+    keras_typing = None
 import numpy as np
 import pandas as pd
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
+try:
+    import tensorflow as tf
+    from tensorflow import keras
+    from tensorflow.keras import layers
+    HAS_TENSORFLOW = True
+except ImportError:
+    HAS_TENSORFLOW = False
+    tf = None
+    keras = None
+    layers = None
 from sklearn.preprocessing import StandardScaler
 import warnings
 
@@ -62,6 +74,8 @@ class LSTMForecaster(BaseForecaster):
             Additional parameters
         """
         super().__init__(name="LSTMForecaster")
+        if not HAS_TENSORFLOW:
+            raise ImportError("TensorFlow is required for LSTMForecaster. Install with: pip install tensorflow")
         self.lookback = lookback
         self.lstm_units = lstm_units
         self.num_layers = num_layers
@@ -115,7 +129,7 @@ class LSTMForecaster(BaseForecaster):
         
         return np.array(X_seq), np.array(y_seq)
     
-    def _build_model(self, input_shape: Tuple[int, int]) -> keras.Model:
+    def _build_model(self, input_shape: Tuple[int, int]):
         """
         Build LSTM neural network architecture.
         

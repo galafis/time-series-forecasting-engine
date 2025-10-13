@@ -9,7 +9,11 @@ from typing import Optional, Tuple
 import numpy as np
 import pandas as pd
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-from pmdarima import auto_arima
+try:
+    from pmdarima import auto_arima
+    HAS_PMDARIMA = True
+except ImportError:
+    HAS_PMDARIMA = False
 import warnings
 
 from .base_forecaster import BaseForecaster
@@ -74,20 +78,24 @@ class ARIMAForecaster(BaseForecaster):
             
             if self.auto_select and self.order is None:
                 # Automatic parameter selection
-                auto_model = auto_arima(
-                    y,
-                    X=X,
-                    seasonal=self.seasonal_order is not None,
-                    m=self.seasonal_order[3] if self.seasonal_order else 1,
-                    stepwise=True,
-                    suppress_warnings=True,
-                    error_action='ignore',
-                    trace=False,
-                    **self.kwargs
-                )
-                self.order = auto_model.order
-                if self.seasonal_order is None and hasattr(auto_model, 'seasonal_order'):
-                    self.seasonal_order = auto_model.seasonal_order
+                if HAS_PMDARIMA:
+                    auto_model = auto_arima(
+                        y,
+                        X=X,
+                        seasonal=self.seasonal_order is not None,
+                        m=self.seasonal_order[3] if self.seasonal_order else 1,
+                        stepwise=True,
+                        suppress_warnings=True,
+                        error_action='ignore',
+                        trace=False,
+                        **self.kwargs
+                    )
+                    self.order = auto_model.order
+                    if self.seasonal_order is None and hasattr(auto_model, 'seasonal_order'):
+                        self.seasonal_order = auto_model.seasonal_order
+                else:
+                    # Default order if pmdarima not available
+                    self.order = (1, 1, 1)
                     
             # Fit SARIMAX model
             self.model = SARIMAX(

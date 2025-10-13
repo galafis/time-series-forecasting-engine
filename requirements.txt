@@ -6,7 +6,7 @@ scipy>=1.10.0
 # Time Series Models
 prophet>=1.1.5
 statsmodels>=0.14.0
-pmdarima>=2.0.3
+# pmdarima>=2.0.3  # Optional: for automatic ARIMA parameter selection
 arch>=6.2.0
 
 # Deep Learning
