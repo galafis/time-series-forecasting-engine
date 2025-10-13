@@ -1,5 +1,10 @@
 # Time Series Forecasting Engine
 
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![Contributions](https://img.shields.io/badge/Contributions-Welcome-orange)
+
 [English](#english) | [Português](#português)
 
 ---
