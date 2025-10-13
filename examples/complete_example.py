@@ -12,17 +12,18 @@ Author: Gabriel Demetrios Lafis
 """
 
 import sys
-sys.path.append('../src')
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
-from models import ARIMAForecaster, ProphetForecaster, LSTMForecaster, EnsembleForecaster
-from preprocessing import TimeSeriesPreprocessor
-from evaluation import ModelEvaluator
-from visualization import TimeSeriesVisualizer
+from src.models import ARIMAForecaster, ProphetForecaster, LSTMForecaster, EnsembleForecaster
+from src.preprocessing import TimeSeriesPreprocessor
+from src.evaluation import ModelEvaluator
+from src.visualization import TimeSeriesVisualizer
 
 
 def generate_sample_data(n_points=500):
@@ -91,15 +92,22 @@ def main():
         ProphetForecaster(
             changepoint_prior_scale=0.05,
             seasonality_prior_scale=10.0
-        ),
-        LSTMForecaster(
+        )
+    ]
+    
+    # Try to add LSTM if TensorFlow is available
+    try:
+        lstm_model = LSTMForecaster(
             lookback=30,
             lstm_units=64,
             num_layers=2,
             epochs=50,
             batch_size=32
         )
-    ]
+        models.append(lstm_model)
+    except ImportError:
+        print("   Note: Skipping LSTM model (TensorFlow not installed)")
+    
     print(f"   Initialized {len(models)} models:")
     for model in models:
         print(f"   - {model.name}")
