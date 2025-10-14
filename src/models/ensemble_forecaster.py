@@ -102,7 +102,10 @@ class EnsembleForecaster(BaseForecaster):
         aggregated : np.ndarray
             Aggregated predictions
         """
-        predictions_array = np.array(predictions)
+        # Ensure all predictions have the same length
+        min_length = min(len(p) for p in predictions)
+        predictions_aligned = [p[:min_length] for p in predictions]
+        predictions_array = np.array(predictions_aligned)
         
         if self.method == 'average':
             return np.mean(predictions_array, axis=0)
