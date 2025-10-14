@@ -373,12 +373,20 @@ pytest --cov=src tests/
 
 ### 📖 Documentation
 
-Detailed documentation for each module:
+Comprehensive documentation is available for all modules:
 
-- **Models**: See `src/models/README.md`
-- **Preprocessing**: See `src/preprocessing/README.md`
-- **Evaluation**: See `src/evaluation/README.md`
-- **Visualization**: See `src/visualization/README.md`
+- **[Models Documentation](src/models/README.md)** - Complete guide to all forecasting models (ARIMA, Prophet, LSTM, Ensemble)
+- **[Preprocessing Documentation](src/preprocessing/README.md)** - Data preparation and feature engineering guide
+- **[Evaluation Documentation](src/evaluation/README.md)** - Model evaluation metrics and techniques
+- **[Visualization Documentation](src/visualization/README.md)** - Plotting and visualization guide
+- **[Architecture Overview](docs/architecture.md)** - System architecture and component interaction
+
+#### 📓 Jupyter Notebooks
+
+Interactive tutorials are available in the `notebooks/` directory:
+
+- **[Tutorial 1: Introduction](notebooks/01_introducao_basica.ipynb)** - Getting started with basic forecasting
+- **[Tutorial 2: Advanced Preprocessing](notebooks/02_preprocessamento_avancado.ipynb)** - Advanced data preparation techniques
 
 ### 🤝 Contributing
 
@@ -389,6 +397,8 @@ Contributions are welcome! Please follow these steps:
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+For detailed guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ### 📄 License
 
@@ -403,6 +413,197 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Facebook Prophet team for the excellent forecasting library
 - Statsmodels contributors for ARIMA implementation
 - TensorFlow/Keras team for deep learning framework
+
+---
+
+## ❓ Frequently Asked Questions (FAQ)
+
+### General Questions
+
+**Q: Which model should I use for my time series?**  
+A: It depends on your data characteristics:
+- **ARIMA**: Good for stationary or near-stationary data with linear trends
+- **Prophet**: Excellent for data with multiple seasonalities and holidays
+- **LSTM**: Best for complex non-linear patterns with long-term dependencies
+- **Ensemble**: Combines multiple models for maximum accuracy
+
+See the [Model Selection Guide](src/models/README.md#model-selection-guide) for detailed comparison.
+
+**Q: How much data do I need?**  
+A: Minimum recommendations:
+- **ARIMA**: 50-100 observations
+- **Prophet**: 100-200 observations (at least 2 seasons)
+- **LSTM**: 500+ observations (more data = better performance)
+- Generally, more data leads to better forecasts
+
+**Q: Can I use external features (exogenous variables)?**  
+A: Yes! Prophet and LSTM support external features. See the [documentation](src/models/README.md) for examples.
+
+**Q: How do I handle missing values?**  
+A: Multiple methods are available:
+- Interpolation (recommended for most cases)
+- Forward/backward fill
+- Mean/median imputation
+- Seasonal decomposition-based filling
+
+See [Preprocessing Documentation](src/preprocessing/README.md#missing-value-imputation).
+
+### Technical Questions
+
+**Q: Why is my ARIMA model not converging?**  
+A: Common solutions:
+1. Check if your data is stationary (use ADF test)
+2. Try differencing your data
+3. Reduce model complexity (lower p, d, q values)
+4. Remove outliers and extreme values
+
+**Q: Prophet training is slow. How can I speed it up?**  
+A: Try these approaches:
+1. Reduce `changepoint_prior_scale`
+2. Disable unnecessary seasonalities
+3. Use a smaller dataset for initial testing
+4. Consider using ARIMA for faster training
+
+**Q: My LSTM model is overfitting. What should I do?**  
+A: Strategies to reduce overfitting:
+1. Increase dropout rate (0.2-0.5)
+2. Reduce model complexity (fewer layers/units)
+3. Add more training data
+4. Use early stopping
+5. Apply regularization
+
+**Q: How do I save and load trained models?**  
+A: All models support save/load:
+```python
+# Save
+model.save('my_model.pkl')
+
+# Load
+from src.models import ARIMAForecaster
+loaded_model = ARIMAForecaster.load('my_model.pkl')
+```
+
+### Evaluation Questions
+
+**Q: Which metric should I use to evaluate my model?**  
+A: Depends on your needs:
+- **RMSE**: Penalizes large errors, good for most cases
+- **MAE**: More robust to outliers
+- **MAPE**: Scale-independent, good for comparing across datasets
+- **R²**: Measures explained variance, good for model fit assessment
+
+See [Evaluation Documentation](src/evaluation/README.md) for detailed explanation.
+
+**Q: My R² is negative. Is something wrong?**  
+A: A negative R² means your model performs worse than simply predicting the mean. This indicates:
+1. Model is inappropriate for the data
+2. Poor hyperparameter selection
+3. Insufficient preprocessing
+4. Data leakage in train/test split
+
+**Q: How do I perform cross-validation for time series?**  
+A: Use time series cross-validation (not regular k-fold):
+```python
+cv_results = evaluator.time_series_cv(
+    model=model,
+    data=data,
+    n_splits=5,
+    test_size=30
+)
+```
+
+See [Evaluation Documentation](src/evaluation/README.md#time-series-cross-validation).
+
+### Troubleshooting
+
+**Q: I'm getting import errors. What's wrong?**  
+A: Make sure you've installed the package:
+```bash
+pip install -r requirements.txt
+pip install -e .
+```
+
+**Q: TensorFlow/LSTM is not working.**  
+A: Check TensorFlow installation:
+```bash
+pip install tensorflow>=2.13.0
+```
+For GPU support, install `tensorflow-gpu`.
+
+**Q: Prophet is giving warnings about holidays.**  
+A: This is normal if you haven't specified holidays. To suppress:
+```python
+import logging
+logging.getLogger('cmdstanpy').setLevel(logging.WARNING)
+```
+
+**Q: My forecasts look unrealistic (too high/low).**  
+A: Check these:
+1. Verify data preprocessing (especially transformations)
+2. Check for data leakage
+3. Validate model assumptions
+4. Try simpler models first (ARIMA → Prophet → LSTM)
+5. Inspect residual plots for patterns
+
+**Q: Tests are failing. What should I do?**  
+A: Run tests with verbose output:
+```bash
+pytest tests/ -v --tb=long
+```
+Check that all dependencies are installed and up-to-date.
+
+### Performance Questions
+
+**Q: How can I speed up LSTM training?**  
+A: Several options:
+1. Use GPU acceleration (install `tensorflow-gpu`)
+2. Reduce batch size
+3. Use fewer epochs
+4. Reduce model complexity
+5. Use smaller lookback window
+
+**Q: Can I use this for real-time forecasting?**  
+A: Yes, but consider:
+- **ARIMA**: Very fast inference (~milliseconds)
+- **Prophet**: Fast inference (~seconds)
+- **LSTM**: Moderate speed (requires model loading)
+- Pre-train models and cache them for best performance
+
+**Q: How do I handle large datasets (millions of points)?**  
+A: Strategies:
+1. Sample data for model development
+2. Use batching for LSTM
+3. Consider simpler models (ARIMA/Prophet) first
+4. Use incremental learning if available
+5. Aggregate to lower frequency (hourly → daily)
+
+### Best Practices
+
+**Q: What's the recommended workflow?**  
+A:
+1. **Explore**: Visualize data, check statistics
+2. **Preprocess**: Handle missing values, outliers
+3. **Split**: Create train/test sets (80/20)
+4. **Baseline**: Start with simple models (ARIMA)
+5. **Iterate**: Try more complex models (Prophet, LSTM)
+6. **Ensemble**: Combine best models
+7. **Evaluate**: Use cross-validation
+8. **Deploy**: Save best model
+
+**Q: Should I always use ensemble models?**  
+A: Not necessarily:
+- **Pros**: Usually more accurate, robust
+- **Cons**: Slower, more complex, harder to interpret
+- **Use when**: Accuracy is critical, have computational resources
+- **Skip when**: Need speed, interpretability, or simple model
+
+**Q: How often should I retrain my model?**  
+A: Depends on data characteristics:
+- **Static data**: Rarely (quarterly/annually)
+- **Slow drift**: Monthly
+- **Fast drift**: Weekly/daily
+- **Real-time**: Continuous/incremental learning
+- Monitor model performance and retrain when accuracy degrades
 
 ---
 
