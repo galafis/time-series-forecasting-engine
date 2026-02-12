@@ -14,7 +14,7 @@ setup(
     description="Advanced time series forecasting engine with multiple algorithms and deep learning models",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/gabriellafis/time-series-forecasting-engine",
+    url="https://github.com/galafis/time-series-forecasting-engine",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     classifiers=[

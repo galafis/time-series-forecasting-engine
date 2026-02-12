@@ -5,14 +5,15 @@ Author: Gabriel Demetrios Lafis
 """
 
 import sys
-sys.path.append('../src')
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 import pytest
 import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 
-from models import ARIMAForecaster, ProphetForecaster, LSTMForecaster, EnsembleForecaster
+from src.models import ARIMAForecaster, ProphetForecaster, LSTMForecaster, EnsembleForecaster
 
 
 @pytest.fixture

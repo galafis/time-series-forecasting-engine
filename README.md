@@ -2,8 +2,6 @@
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
-![Contributions](https://img.shields.io/badge/Contributions-Welcome-orange)
 
 [English](#english) | [Português](#português)
 
@@ -14,9 +12,9 @@
 
 ### 📊 Overview
 
-**Time Series Forecasting Engine** is a comprehensive, production-ready Python framework for advanced time series forecasting. It combines statistical models (ARIMA), machine learning approaches (Prophet), and deep learning architectures (LSTM) into a unified, easy-to-use interface with extensive preprocessing, evaluation, and visualization capabilities.
+**Time Series Forecasting Engine** is a Python framework for time series forecasting that brings together statistical models (ARIMA), machine learning (Prophet), and deep learning (LSTM) behind a consistent interface. It includes preprocessing, evaluation, and visualization utilities.
 
-This framework is designed for data scientists, machine learning engineers, and researchers who need robust, scalable, and accurate time series forecasting solutions for real-world applications such as demand forecasting, financial predictions, energy consumption, and more.
+Built for data scientists, ML engineers, and researchers working on problems like demand forecasting, financial predictions, and energy consumption analysis.
 
 ### ✨ Key Features
 
@@ -339,22 +337,9 @@ ensemble.fit(temperature_data)
 temp_forecast = ensemble.predict(steps=7)  # Next 7 days
 ```
 
-### 📊 Performance Benchmarks
+### 📊 Supported Evaluation Metrics
 
-Tested on standard datasets:
-
-| Dataset | Model | RMSE | MAE | MAPE | Training Time |
-|---------|-------|------|-----|------|---------------|
-| **AirPassengers** | ARIMA | 15.2 | 11.3 | 4.2% | 0.5s |
-| **AirPassengers** | Prophet | 12.8 | 9.7 | 3.5% | 1.2s |
-| **AirPassengers** | LSTM | 10.5 | 7.9 | 2.8% | 45s |
-| **AirPassengers** | Ensemble | 9.8 | 7.2 | 2.5% | 47s |
-| **Energy** | ARIMA | 245.3 | 198.4 | 5.8% | 1.2s |
-| **Energy** | Prophet | 198.7 | 156.2 | 4.6% | 2.5s |
-| **Energy** | LSTM | 167.4 | 132.8 | 3.9% | 120s |
-| **Energy** | Ensemble | 155.2 | 122.1 | 3.4% | 124s |
-
-*Hardware: Intel i7-10700K, 32GB RAM*
+All models can be evaluated using the built-in `ModelEvaluator` with metrics including MAE, RMSE, MAPE, sMAPE, R², and MASE. See the [Evaluation Documentation](src/evaluation/README.md) for details on each metric and guidance on which to use for your problem.
 
 ### 🧪 Testing
 
@@ -612,9 +597,9 @@ A: Depends on data characteristics:
 
 ### 📊 Visão Geral
 
-**Time Series Forecasting Engine** é um framework Python abrangente e pronto para produção para previsão avançada de séries temporais. Combina modelos estatísticos (ARIMA), abordagens de machine learning (Prophet) e arquiteturas de deep learning (LSTM) em uma interface unificada e fácil de usar, com extensas capacidades de pré-processamento, avaliação e visualização.
+**Time Series Forecasting Engine** é um framework Python para previsão de séries temporais que reúne modelos estatísticos (ARIMA), machine learning (Prophet) e deep learning (LSTM) em uma interface consistente. Inclui utilitários de pré-processamento, avaliação e visualização.
 
-Este framework é projetado para cientistas de dados, engenheiros de machine learning e pesquisadores que precisam de soluções robustas, escaláveis e precisas de previsão de séries temporais para aplicações do mundo real, como previsão de demanda, predições financeiras, consumo de energia e muito mais.
+Construído para cientistas de dados, engenheiros de ML e pesquisadores trabalhando em problemas como previsão de demanda, predições financeiras e análise de consumo de energia.
 
 ### ✨ Principais Recursos
 
@@ -728,16 +713,9 @@ print(f"MAE: {metrics['MAE']:.2f}")
 print(f"MAPE: {metrics['MAPE']:.2f}%")
 ```
 
-### 📊 Benchmarks de Performance
+### 📊 Métricas de Avaliação Suportadas
 
-Testado em datasets padrão:
-
-| Dataset | Modelo | RMSE | MAE | MAPE | Tempo de Treino |
-|---------|--------|------|-----|------|-----------------|
-| **AirPassengers** | ARIMA | 15.2 | 11.3 | 4.2% | 0.5s |
-| **AirPassengers** | Prophet | 12.8 | 9.7 | 3.5% | 1.2s |
-| **AirPassengers** | LSTM | 10.5 | 7.9 | 2.8% | 45s |
-| **AirPassengers** | Ensemble | 9.8 | 7.2 | 2.5% | 47s |
+Todos os modelos podem ser avaliados usando o `ModelEvaluator` integrado, com métricas como MAE, RMSE, MAPE, sMAPE, R² e MASE. Consulte a [Documentação de Avaliação](src/evaluation/README.md) para detalhes sobre cada métrica.
 
 ### 📄 Licença
 
