@@ -52,9 +52,9 @@ class TimeSeriesPreprocessor:
         if method == 'interpolate':
             return data.interpolate(method='time', **kwargs)
         elif method == 'forward_fill':
-            return data.fillna(method='ffill', **kwargs)
+            return data.ffill(**kwargs)
         elif method == 'backward_fill':
-            return data.fillna(method='bfill', **kwargs)
+            return data.bfill(**kwargs)
         elif method == 'mean':
             return data.fillna(data.mean())
         else:
