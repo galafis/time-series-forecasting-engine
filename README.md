@@ -7,6 +7,7 @@ Time series forecasting engine with ARIMA, Prophet, LSTM, and ensemble methods. 
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB.svg)](https://python.org)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.13+-FF6F00.svg)](https://tensorflow.org)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker)](Dockerfile)
 
 [Portugues](#portugues) | [English](#english)
 
